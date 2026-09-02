@@ -133,13 +133,13 @@ echo "$BACKUP_FILE"
 echo "Uploading to Proton Drive..."
 
 proton-drive filesystem upload \
-    --conflict-strategy skip \
+    --file-conflict-strategy skip \
     "$BACKUP_FILE" \
     "$PROTON_DIR"
 
 echo "Checking Proton Drive..."
 
-if proton-drive filesystem list -j "$PROTON_DIR" \
+if proton-drive filesystem list "$PROTON_DIR" \
     | grep -Fq "$BACKUP_NAME"
 then
     echo "Upload verified successfully."
