@@ -1,0 +1,7 @@
+.env
+passphrase
+*.tar.gz.gpg
+.ssh/
+last-fingerprint
+*.log
+.local/

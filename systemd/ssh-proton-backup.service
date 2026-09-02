@@ -1,0 +1,8 @@
+[Unit]
+Description=Encrypted SSH key backup to Proton Drive
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/ssh-proton-backup.sh
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%U/bus
