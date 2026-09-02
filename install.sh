@@ -297,6 +297,7 @@ ensure_remote_folder() {
 }
 
 echo "=== SSH Proton Backup installer ==="
+echo "Linux with systemd user sessions. x86_64 or aarch64."
 
 ensure_packages
 

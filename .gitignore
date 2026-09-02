@@ -1,3 +1,4 @@
+# Never commit secrets, live SSH keys, or encrypted archives.
 .env
 passphrase
 *.tar.gz.gpg

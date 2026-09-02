@@ -1,0 +1,39 @@
+name: Bug report
+description: Something did not work as expected
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste private keys, `GPG_PASSPHRASE`, a real `.env`, or Proton session data.
+        Strip secrets from logs first.
+  - type: input
+    id: os
+    attributes:
+      label: OS
+      placeholder: Ubuntu 24.04, Fedora 42, ...
+    validations:
+      required: true
+  - type: input
+    id: cli-version
+    attributes:
+      label: Proton Drive CLI version
+      placeholder: output of `proton-drive version`
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you ran and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs (secrets stripped)
+      description: Relevant `journalctl --user -u ssh-proton-backup.service` or script output.
+      render: shell
+    validations:
+      required: false
