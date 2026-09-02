@@ -1,0 +1,11 @@
+[Unit]
+Description=Watch ~/.ssh and backup when it changes
+
+[Path]
+PathChanged=%h/.ssh
+PathModified=%h/.ssh
+Unit=ssh-proton-backup.service
+MakeDirectory=false
+
+[Install]
+WantedBy=default.target

@@ -4,5 +4,8 @@ After=graphical-session.target
 
 [Service]
 Type=oneshot
+# ssh-keygen writes the private key, then the public key.
+# Wait so both files exist before the fingerprint is taken.
+ExecStartPre=/bin/sleep 3
 ExecStart=%h/.local/bin/ssh-proton-backup.sh
 Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%U/bus

@@ -23,7 +23,8 @@ These steps completed during the first install:
 - Proton Drive CLI **0.8.0** is installed at `~/.local/bin/proton-drive`
 - Proton browser login succeeded (`proton-drive auth login`)
 - Remote folder `/my-files/SSH-Key-Backups` exists
-- systemd user timer `ssh-proton-backup.timer` is enabled (daily 20:00)
+- systemd user timer `ssh-proton-backup.timer` is enabled (daily 20:00 fallback)
+- systemd path unit `ssh-proton-backup.path` watches `~/.ssh` and backs up shortly after a key is added or changed
 - Config directory `~/.config/ssh-backup/` exists
 
 **Still required before the first real backup:** set `GPG_PASSPHRASE` in `.env`, then run a `--force` test.
@@ -148,16 +149,22 @@ Expected result:
 
 ## Schedule
 
-A systemd user timer checks daily at 20:00. It only uploads when `~/.ssh` changed.
+Two triggers:
+
+1. **Path watcher** — when a file in `~/.ssh` is created or changed, the backup runs after a 3-second delay (so `ssh-keygen` can finish writing both the private and public key).
+2. **Daily timer** — 20:00 fallback if a change was missed.
+
+Both still skip the upload when the fingerprint is unchanged.
 
 ```bash
+systemctl --user status ssh-proton-backup.path
 systemctl --user status ssh-proton-backup.timer
 journalctl --user -u ssh-proton-backup.service
 ```
 
-The timer needs your user session and an unlocked keyring. `Persistent=true` means a missed run fires after you log in again.
+The job needs your user session and an unlocked keyring. The timer uses `Persistent=true`, so a missed 20:00 run fires after you log in again.
 
-Classic cron often cannot read libsecret. Prefer the systemd timer.
+Classic cron often cannot read libsecret. Prefer these systemd units.
 
 ## Restore
 

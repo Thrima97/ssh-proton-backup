@@ -262,11 +262,16 @@ install_timer() {
         "${SYSTEMD_USER_DIR}/ssh-proton-backup.service"
     install -m 644 "${SCRIPT_DIR}/systemd/ssh-proton-backup.timer" \
         "${SYSTEMD_USER_DIR}/ssh-proton-backup.timer"
+    install -m 644 "${SCRIPT_DIR}/systemd/ssh-proton-backup.path" \
+        "${SYSTEMD_USER_DIR}/ssh-proton-backup.path"
 
     systemctl --user daemon-reload
     systemctl --user enable --now ssh-proton-backup.timer
+    systemctl --user enable --now ssh-proton-backup.path
     echo "Enabled systemd user timer ssh-proton-backup.timer (daily 20:00)."
+    echo "Enabled systemd path unit ssh-proton-backup.path (runs when ~/.ssh changes)."
     systemctl --user status ssh-proton-backup.timer --no-pager || true
+    systemctl --user status ssh-proton-backup.path --no-pager || true
 }
 
 ensure_remote_folder() {
